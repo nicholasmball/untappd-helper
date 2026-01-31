@@ -21,7 +21,9 @@
     "https://pollys.co/*",
     "https://*.pollys.co/*",
     "https://verdantbrewing.co/*",
-    "https://*.verdantbrewing.co/*"
+    "https://*.verdantbrewing.co/*",
+    "https://trackbrewing.co/*",
+    "https://*.trackbrewing.co/*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -42,7 +44,9 @@
         "https://pollys.co/*",
         "https://*.pollys.co/*",
         "https://verdantbrewing.co/*",
-        "https://*.verdantbrewing.co/*"
+        "https://*.verdantbrewing.co/*",
+        "https://trackbrewing.co/*",
+        "https://*.trackbrewing.co/*"
       ],
       "js": ["config.js", "content-script.js"],
       "css": ["styles.css"],

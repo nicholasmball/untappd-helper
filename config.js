@@ -194,6 +194,32 @@ const BREWERY_CONFIGS = {
 
       return beerName;
     }
+  },
+
+  'trackbrewing.co': {
+    name: 'Track',
+    breweryNameForSearch: 'Track Brewing',
+
+    // Selectors for Track Shopify theme (custom product-card element)
+    beerCardSelector: 'product-card, .product-card',
+    beerNameSelector: 'a.product-card-title, .product-card-title',
+    priceSelector: '.price',
+    cardTextSelector: '.product-card-info',
+
+    // Inject after the title link
+    injectionTarget: 'a.product-card-title, .product-card-title',
+    injectionPosition: 'afterend',
+
+    transformBeerName: (name) => {
+      // Track format: "Made In The Shade | Porter | 5.6%"
+      // Extract beer name before the first pipe
+      let beerName = name
+        .split('|')[0]                        // Take text before pipe
+        .replace(/\s*\d+(\.\d+)?%.*$/i, '')   // Remove ABV if present
+        .trim();
+
+      return beerName;
+    }
   }
 };
 
