@@ -15,7 +15,9 @@
     "https://pipelinebrewing.co.uk/*",
     "https://*.pipelinebrewing.co.uk/*",
     "https://beakbrewery.com/*",
-    "https://*.beakbrewery.com/*"
+    "https://*.beakbrewery.com/*",
+    "https://deyabrewing.com/*",
+    "https://*.deyabrewing.com/*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -30,7 +32,9 @@
         "https://pipelinebrewing.co.uk/*",
         "https://*.pipelinebrewing.co.uk/*",
         "https://beakbrewery.com/*",
-        "https://*.beakbrewery.com/*"
+        "https://*.beakbrewery.com/*",
+        "https://deyabrewing.com/*",
+        "https://*.deyabrewing.com/*"
       ],
       "js": ["config.js", "content-script.js"],
       "css": ["styles.css"],

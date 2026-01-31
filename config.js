@@ -117,6 +117,29 @@ const BREWERY_CONFIGS = {
 
       return beerName;
     }
+  },
+
+  'deyabrewing.com': {
+    name: 'Deya',
+    breweryNameForSearch: 'Deya',
+
+    // Selectors for Deya's custom Shopify theme
+    beerCardSelector: '.indiv-product-wrapper',
+    beerNameSelector: '.indiv-product-vendor-text strong, .hp-title strong',
+    priceSelector: '.money, .price',
+    cardTextSelector: '.indiv-product-vendor-text, .hp-title',
+
+    // Inject after the title area
+    injectionTarget: '.indiv-product-vendor-text, .hp-title',
+    injectionPosition: 'afterend',
+
+    transformBeerName: (name) => {
+      // Deya format: "PLENTY SATURATED MOTUEKA, NELSON SAUVIN, NECTARON"
+      // Beer names are usually already clean, just trim
+      let beerName = name.trim();
+
+      return beerName;
+    }
   }
 };
 
