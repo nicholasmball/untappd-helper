@@ -17,7 +17,11 @@
     "https://beakbrewery.com/*",
     "https://*.beakbrewery.com/*",
     "https://deyabrewing.com/*",
-    "https://*.deyabrewing.com/*"
+    "https://*.deyabrewing.com/*",
+    "https://pollys.co/*",
+    "https://*.pollys.co/*",
+    "https://verdantbrewing.co/*",
+    "https://*.verdantbrewing.co/*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -34,7 +38,11 @@
         "https://beakbrewery.com/*",
         "https://*.beakbrewery.com/*",
         "https://deyabrewing.com/*",
-        "https://*.deyabrewing.com/*"
+        "https://*.deyabrewing.com/*",
+        "https://pollys.co/*",
+        "https://*.pollys.co/*",
+        "https://verdantbrewing.co/*",
+        "https://*.verdantbrewing.co/*"
       ],
       "js": ["config.js", "content-script.js"],
       "css": ["styles.css"],

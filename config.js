@@ -140,6 +140,60 @@ const BREWERY_CONFIGS = {
 
       return beerName;
     }
+  },
+
+  'pollys.co': {
+    name: 'Pollys',
+    breweryNameForSearch: 'Pollys Brew Co',
+
+    // Selectors for WooCommerce with Elementor loop
+    beerCardSelector: '[data-elementor-type="loop-item"], .e-loop-item',
+    beerNameSelector: '.elementor-widget-woocommerce-product-title h2, .elementor-widget-woocommerce-product-title',
+    priceSelector: '.elementor-widget-woocommerce-product-price, .price',
+    cardTextSelector: '.e-con-inner',
+
+    // Inject after the title widget
+    injectionTarget: '.elementor-widget-woocommerce-product-title',
+    injectionPosition: 'afterend',
+
+    transformBeerName: (name) => {
+      // Polly's format: "Rosebud – IPA 5.6%" or "Pilsner – Lager Beer 4.7%"
+      // Extract beer name before em-dash
+      let beerName = name
+        .split('–')[0]                        // Take text before em-dash
+        .split('-')[0]                        // Also handle regular dash
+        .replace(/\s*\d+(\.\d+)?%.*$/i, '')   // Remove ABV if present
+        .trim();
+
+      return beerName;
+    }
+  },
+
+  'verdantbrewing.co': {
+    name: 'Verdant',
+    breweryNameForSearch: 'Verdant',
+
+    // Selectors for Verdant Shopify theme (Tailwind CSS)
+    beerCardSelector: '.product-card',
+    beerNameSelector: 'h2.product__title, .product__title',
+    priceSelector: '.price, .money',
+    cardTextSelector: '.product-card',
+
+    // Inject after the title
+    injectionTarget: 'h2.product__title, .product__title',
+    injectionPosition: 'afterend',
+
+    transformBeerName: (name) => {
+      // Verdant names - handle collabs like "Disco Italiano x Birificio Italiano"
+      let beerName = name
+        .replace(/\s*\d+(\.\d+)?%.*$/i, '')   // Remove ABV if present
+        .replace(/\s*-\s*\d+ml$/i, '')        // Remove size
+        .replace(/\s+x\s+.*/i, '')            // Remove collab suffix " x ..."
+        .replace(/\s+\d{4}\s*$/i, '')         // Remove year like "2025"
+        .trim();
+
+      return beerName;
+    }
   }
 };
 

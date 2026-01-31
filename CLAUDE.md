@@ -6,9 +6,13 @@ This file provides guidance to Claude Code when working with this repository.
 
 **untappd-helper** - A Chrome extension that automatically fetches Untappd ratings for beers and injects them directly into brewery websites' DOM.
 
-### Current Scope
-- **Primary target**: cloudwaterbrew.co
-- **Architecture**: Modular design to easily add other brewery websites
+### Supported Breweries
+- cloudwaterbrew.co (Shopify)
+- azvexbrewing.com (WooCommerce/Themify)
+- pipelinebrewing.co.uk (Shopify Venue)
+- beakbrewery.com (Custom Shopify)
+- deyabrewing.com (Shopify Fresh)
+- pollys.co (WooCommerce/Elementor) - *in progress*
 
 ## Tech Stack
 
@@ -25,7 +29,6 @@ untappd-helper/
 ├── manifest.json          # Extension manifest (V3)
 ├── background.js          # Service worker, message handling, Untappd fetching
 ├── content-script.js      # DOM manipulation, rating injection
-├── untappdService.js      # Abstraction layer for scraping/API
 ├── config.js              # Brewery-specific DOM selectors
 ├── utils.js               # Caching, rate limiting helpers
 ├── popup/
@@ -45,55 +48,128 @@ untappd-helper/
 # 3. Click "Load unpacked"
 # 4. Select this directory
 
+# After making changes:
+# 1. Go to chrome://extensions
+# 2. Click refresh icon on the extension (or Remove + Load unpacked for manifest changes)
+
 # No build step required - vanilla JS
 ```
 
-## Architecture
+## Adding a New Brewery
 
-### Service Abstraction Pattern
-The `UntappdService` class provides a clean interface that can swap between scraping and API:
-- `getBeerRating(beerName, brewery)` - Main entry point
-- `fetchViaScrape()` - Initial implementation using Untappd search scraping
-- `fetchViaAPI()` - Future implementation when API key is available
+### 1. Update manifest.json
+Add both host_permissions and content_scripts matches:
+```json
+"host_permissions": [
+  "https://newbrewery.com/*",
+  "https://*.newbrewery.com/*"
+]
+```
+**Important**: `*.domain.com` only matches subdomains (www.domain.com), NOT the bare domain. Add both patterns.
 
-### Brewery Adapter Pattern
-Each brewery has a config in `config.js`:
+### 2. Add config to config.js
 ```javascript
-{
-  name: 'Cloudwater',
-  beerNameSelector: '...',
-  beerCardSelector: '...',
-  injectionPoint: '...',
-  breweryNameForSearch: 'Cloudwater'
+'newbrewery.com': {
+  name: 'New Brewery',
+  breweryNameForSearch: 'New Brewery',  // Name to append to Untappd search
+
+  // DOM Selectors - inspect the site to find these
+  beerCardSelector: '.product-card',           // Container for each beer
+  beerNameSelector: '.product-title, h3 a',    // Element containing beer name
+  priceSelector: '.price, .money',             // Price element
+  cardTextSelector: '.product-info',           // Text container area
+
+  // Where to inject the rating badge
+  injectionTarget: '.product-title',           // Element to inject near
+  injectionPosition: 'afterend',               // 'beforeend', 'afterbegin', 'beforebegin', 'afterend'
+
+  // Transform beer name for better Untappd matching
+  transformBeerName: (name) => {
+    let beerName = name
+      .split('–')[0]                        // Remove text after em-dash
+      .replace(/\s*\d+(\.\d+)?%.*$/i, '')   // Remove ABV and everything after
+      .replace(/\s*-\s*\d+ml$/i, '')        // Remove size
+      .trim();
+    return beerName;
+  }
 }
 ```
+
+### 3. Debugging New Sites
+
+Open DevTools Console on the brewery site and look for:
+- `"Beer Rating Injector: Running on [name]"` - Config found
+- `"Beer Rating Injector: Found X beer cards"` - Cards found
+- `"Beer Rating Injector: No name element found"` - Wrong beerNameSelector
+- `"Beer Rating Injector: Could not find injection target"` - Wrong injectionTarget
+
+Useful console commands for debugging:
+```javascript
+// Check if config is loaded
+window.getBreweryConfig()
+
+// Test card selector
+document.querySelectorAll('.your-selector').length
+
+// Find what class a beer name element has
+document.querySelector('h2')?.closest('div')?.className
+```
+
+### Common Issues
+
+1. **"Found 0 beer cards"** - Wrong beerCardSelector. Inspect the page to find the correct container class.
+
+2. **"No name element found"** - Wrong beerNameSelector. The name element must be INSIDE the card container.
+
+3. **Badge shows multiple times** - Card selector is matching nested elements. Use a more specific selector (e.g., `.product-card` instead of `[class*="product"]`).
+
+4. **"No rating" for beers that exist** - Check transformBeerName. The search query might include too much text (ABV, style, collab info).
+
+5. **Extension not loading on site** - Check manifest.json has both bare domain AND wildcard patterns.
+
+## Architecture
+
+### Message Flow
+1. Content script detects beer cards on brewery website
+2. Sends `getBeerRating` message to background service worker
+3. Background script checks cache first (7-day TTL)
+4. If not cached, fetches from Untappd (scraping or API)
+5. Rate limiting applied (10 requests/minute max)
+6. Result cached and returned to content script
+7. Content script injects styled badge into DOM
 
 ### Caching Strategy
 - Storage: `chrome.storage.local`
 - TTL: 7 days
-- Key format: `${brewery}_${beerName}_${timestamp}`
+- Key format: `${brewery}_${beerName}` (normalized)
 
 ## Code Style
 
 - ES6+ JavaScript (async/await, classes, arrow functions)
 - No external dependencies/frameworks
 - Descriptive variable and function names
-- JSDoc comments for public methods
 - Error handling with graceful fallbacks
 
 ## Important Notes
 
 - **Rate Limiting**: Max 10 requests/minute to avoid Untappd blocks
 - **CORS**: All Untappd fetching must go through background service worker
-- **Fuzzy Matching**: Beer names may not exactly match Untappd entries
-- **Graceful Degradation**: Show "(No rating)" when beer not found
-- **Privacy**: API keys stored in chrome.storage.sync (encrypted)
+- **Collaboration Beers**: Often listed under a different brewery on Untappd - may show "No rating"
+- **Graceful Degradation**: Show "No rating" when beer not found, "Unrated" when found but has 0 ratings
+- **Privacy**: API keys stored in chrome.storage.sync
 
-## Key Challenges
+## Platform-Specific Notes
 
-1. Accurately extracting beer names from brewery DOM
-2. Matching beer names to Untappd search results (fuzzy matching)
-3. Avoiding CORS issues (use background script for fetching)
-4. Making injected ratings look native to each site
-5. Rate limiting scraping to avoid blocks
-6. Clean abstraction layer for scraping → API swap
+### Shopify Sites
+- Common selectors: `.product-card`, `.grid__item`, `.card`
+- Title usually in `h2`, `h3`, or `.product-card__title`
+- Many theme variations - always inspect the actual DOM
+
+### WooCommerce Sites
+- Common selectors: `.product`, `li.product`, `.woocommerce-loop-product`
+- Title usually in `.woocommerce-loop-product__title` or `h2`
+- Themify/Elementor add extra wrapper classes
+
+### Elementor (WordPress)
+- Uses `[data-elementor-type="loop-item"]` for product loops
+- Widget classes like `.elementor-widget-woocommerce-product-title`
