@@ -34,6 +34,36 @@ const BREWERY_CONFIGS = {
 
       return beerName;
     }
+  },
+
+  'azvexbrewing.com': {
+    name: 'Azvex',
+    breweryNameForSearch: 'Azvex',
+
+    // Selectors for Azvex custom WooCommerce theme (Themify Builder)
+    beerCardSelector: '.tmb-woocommerce, .tmb.tmb-woocommerce-variable-product',
+    beerNameSelector: '.t-entry-title a, .product-title a, h3 a, a[href*="/shop/"]',
+    priceSelector: '.price',
+    cardTextSelector: '.t-entry-text-tc, .tmb-content-under',
+
+    // Inject after the title area
+    injectionTarget: '.t-entry-title, .product-title, .t-entry-text-tc',
+    injectionPosition: 'afterend',
+
+    transformBeerName: (name) => {
+      // Azvex format: "BROWNIAN MOTION – 6.5% IPA – 440ML CAN"
+      // Extract just the beer name before the first em-dash with ABV
+      let beerName = name
+        .split('–')[0]                        // Take text before first em-dash
+        .split('-')[0]                        // Also handle regular dashes
+        .replace(/\s*\d+(\.\d+)?%.*$/i, '')   // Remove ABV and everything after
+        .trim();
+
+      // Convert from ALL CAPS to Title Case for better Untappd matching
+      beerName = beerName.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+
+      return beerName;
+    }
   }
 };
 

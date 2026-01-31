@@ -9,7 +9,9 @@
   ],
   "host_permissions": [
     "https://untappd.com/*",
-    "https://cloudwaterbrew.co/*"
+    "https://cloudwaterbrew.co/*",
+    "https://azvexbrewing.com/*",
+    "https://*.azvexbrewing.com/*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -17,7 +19,11 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://cloudwaterbrew.co/*"],
+      "matches": [
+        "https://cloudwaterbrew.co/*",
+        "https://azvexbrewing.com/*",
+        "https://*.azvexbrewing.com/*"
+      ],
       "js": ["config.js", "content-script.js"],
       "css": ["styles.css"],
       "run_at": "document_idle"
