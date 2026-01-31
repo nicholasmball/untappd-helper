@@ -1,0 +1,159 @@
+/**
+ * Styles for injected Untappd rating badges
+ * Designed to be non-intrusive and match common brewery site aesthetics
+ */
+
+.untappd-rating-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  margin: 6px 0;
+  background: linear-gradient(135deg, #ffcc00 0%, #f7b500 100%);
+  border-radius: 4px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a1a1a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.untappd-rating-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* High rated beers (4.0+) get special styling */
+.untappd-rating-high {
+  background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+  color: #ffffff;
+}
+
+.untappd-rating-high .untappd-logo {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Not found state */
+.untappd-rating-not-found {
+  background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+  color: #666666;
+}
+
+.untappd-rating-not-found .untappd-text {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Unrated state (found on Untappd but 0 ratings) */
+.untappd-rating-unrated {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  color: #e65100;
+}
+
+.untappd-rating-unrated .untappd-text {
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* Loading state */
+.untappd-rating-loading {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  color: #1976d2;
+}
+
+/* Link styling */
+.untappd-rating-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.untappd-rating-link:hover {
+  text-decoration: none;
+}
+
+/* Icon */
+.untappd-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* Rating number */
+.untappd-rating {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Rating count */
+.untappd-count {
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+/* Untappd branding */
+.untappd-logo {
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.6;
+  margin-left: 4px;
+  padding-left: 4px;
+  border-left: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Loading spinner */
+.untappd-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(25, 118, 210, 0.3);
+  border-top-color: #1976d2;
+  border-radius: 50%;
+  animation: untappd-spin 0.8s linear infinite;
+}
+
+@keyframes untappd-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Text for loading/not found states */
+.untappd-text {
+  font-size: 11px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .untappd-rating-badge {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .untappd-rating-not-found {
+    background: linear-gradient(135deg, #424242 0%, #303030 100%);
+    color: #b0b0b0;
+  }
+
+  .untappd-rating-loading {
+    background: linear-gradient(135deg, #1e3a5f 0%, #0d47a1 100%);
+    color: #90caf9;
+  }
+
+  .untappd-rating-loading .untappd-spinner {
+    border-color: rgba(144, 202, 249, 0.3);
+    border-top-color: #90caf9;
+  }
+}
+
+/* Cloudwater-specific adjustments */
+/* These can be moved to a separate file if needed */
+[data-section-type*="product"] .untappd-rating-badge,
+.card-product .untappd-rating-badge {
+  display: flex;
+  width: fit-content;
+}

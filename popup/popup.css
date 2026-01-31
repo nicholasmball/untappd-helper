@@ -1,0 +1,271 @@
+/**
+ * Popup Styles for Beer Rating Injector
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  color: #333;
+  background: #f5f5f5;
+  min-width: 300px;
+}
+
+.popup-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* Header */
+.popup-header {
+  background: linear-gradient(135deg, #ffcc00 0%, #f7b500 100%);
+  padding: 16px;
+  text-align: center;
+}
+
+.popup-header h1 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* Content */
+.popup-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Settings sections */
+.setting-section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.setting-label {
+  margin-bottom: 8px;
+}
+
+.setting-label label {
+  font-weight: 500;
+  color: #555;
+}
+
+.optional {
+  font-size: 11px;
+  color: #999;
+  font-weight: 400;
+}
+
+/* Toggle switch */
+.toggle-switch {
+  position: relative;
+  width: 48px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: #4caf50;
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(24px);
+}
+
+/* Data source badge */
+.data-source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: #e3f2fd;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #1976d2;
+}
+
+.data-source-badge.api-mode {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+/* API inputs */
+.api-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.api-inputs input {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  transition: border-color 0.2s;
+}
+
+.api-inputs input:focus {
+  outline: none;
+  border-color: #ffcc00;
+}
+
+/* Buttons */
+.button-row {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: #ffcc00;
+  color: #1a1a1a;
+}
+
+.btn-primary:hover {
+  background: #e6b800;
+}
+
+.btn-secondary {
+  background: #e0e0e0;
+  color: #555;
+}
+
+.btn-secondary:hover {
+  background: #d0d0d0;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+/* Stats */
+.stats-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: 8px;
+  background: #fafafa;
+  border-radius: 4px;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffcc00;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Status messages */
+.status-message {
+  display: none;
+  font-size: 11px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.status-message.success {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.status-message.error {
+  background: #ffebee;
+  color: #d32f2f;
+}
+
+/* Footer */
+.popup-footer {
+  padding: 12px;
+  text-align: center;
+  border-top: 1px solid #eee;
+  background: #fff;
+}
+
+.popup-footer p {
+  font-size: 11px;
+  color: #999;
+}
+
+.popup-footer a {
+  color: #ffcc00;
+  text-decoration: none;
+}
+
+.popup-footer a:hover {
+  text-decoration: underline;
+}
