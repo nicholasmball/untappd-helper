@@ -13,7 +13,9 @@
     "https://azvexbrewing.com/*",
     "https://*.azvexbrewing.com/*",
     "https://pipelinebrewing.co.uk/*",
-    "https://*.pipelinebrewing.co.uk/*"
+    "https://*.pipelinebrewing.co.uk/*",
+    "https://beakbrewery.com/*",
+    "https://*.beakbrewery.com/*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -26,7 +28,9 @@
         "https://azvexbrewing.com/*",
         "https://*.azvexbrewing.com/*",
         "https://pipelinebrewing.co.uk/*",
-        "https://*.pipelinebrewing.co.uk/*"
+        "https://*.pipelinebrewing.co.uk/*",
+        "https://beakbrewery.com/*",
+        "https://*.beakbrewery.com/*"
       ],
       "js": ["config.js", "content-script.js"],
       "css": ["styles.css"],

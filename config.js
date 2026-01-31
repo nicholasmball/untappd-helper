@@ -90,6 +90,33 @@ const BREWERY_CONFIGS = {
 
       return beerName;
     }
+  },
+
+  'beakbrewery.com': {
+    name: 'Beak',
+    breweryNameForSearch: 'Beak Brewery',
+
+    // Selectors for Beak's custom Shopify theme
+    beerCardSelector: '.product_thumb',
+    beerNameSelector: 'p.title, .title',
+    priceSelector: 'p.price, .price',
+    cardTextSelector: '.product_thumb',
+
+    // Inject after the title
+    injectionTarget: 'p.title, .title',
+    injectionPosition: 'afterend',
+
+    transformBeerName: (name) => {
+      // Beak format: "HUM 4.8% PALE" or "LEAP 4.5% SESSION IPA"
+      // Collab format: "FLIGHT MECHANICS - BEAK X EQUILIBRIUM - 8.2% DIPA"
+      let beerName = name
+        .replace(/\s*\d+(\.\d+)?%.*$/i, '')   // Remove ABV and everything after
+        .replace(/\s*-\s*beak\s*x\s*.*/i, '') // Remove collab suffix "- BEAK X ..."
+        .replace(/\s*-\s*[^-]+\s*x\s*.*/i, '') // Remove other collab patterns
+        .trim();
+
+      return beerName;
+    }
   }
 };
 
