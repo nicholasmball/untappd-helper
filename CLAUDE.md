@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## Project Overview
 
-**untapped-helper** - A Chrome extension that automatically fetches Untappd ratings for beers and injects them directly into brewery websites' DOM.
+**untappd-helper** - A Chrome extension that automatically fetches Untappd ratings for beers and injects them directly into brewery websites' DOM.
 
 ### Current Scope
 - **Primary target**: cloudwaterbrew.co
@@ -21,7 +21,7 @@ This file provides guidance to Claude Code when working with this repository.
 ## Project Structure
 
 ```
-untapped-helper/
+untappd-helper/
 ├── manifest.json          # Extension manifest (V3)
 ├── background.js          # Service worker, message handling, Untappd fetching
 ├── content-script.js      # DOM manipulation, rating injection
