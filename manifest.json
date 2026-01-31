@@ -11,7 +11,9 @@
     "https://untappd.com/*",
     "https://cloudwaterbrew.co/*",
     "https://azvexbrewing.com/*",
-    "https://*.azvexbrewing.com/*"
+    "https://*.azvexbrewing.com/*",
+    "https://pipelinebrewing.co.uk/*",
+    "https://*.pipelinebrewing.co.uk/*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -22,7 +24,9 @@
       "matches": [
         "https://cloudwaterbrew.co/*",
         "https://azvexbrewing.com/*",
-        "https://*.azvexbrewing.com/*"
+        "https://*.azvexbrewing.com/*",
+        "https://pipelinebrewing.co.uk/*",
+        "https://*.pipelinebrewing.co.uk/*"
       ],
       "js": ["config.js", "content-script.js"],
       "css": ["styles.css"],

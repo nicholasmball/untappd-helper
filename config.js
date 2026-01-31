@@ -64,6 +64,32 @@ const BREWERY_CONFIGS = {
 
       return beerName;
     }
+  },
+
+  'pipelinebrewing.co.uk': {
+    name: 'Pipeline',
+    breweryNameForSearch: 'Pipeline Brewing',
+
+    // Selectors for Shopify Venue theme
+    beerCardSelector: '.product-card',
+    beerNameSelector: '.product-card__title, .product-card__title a, h2 a, a[href*="/products/"]',
+    priceSelector: '.money, .product-card__price',
+    cardTextSelector: '.product-card__info, .product-card',
+
+    // Inject after the title
+    injectionTarget: '.product-card__title, .product-card__info',
+    injectionPosition: 'afterend',
+
+    transformBeerName: (name) => {
+      // Pipeline format: "Wolf Moon - DIPA - 8.4% - 440ml"
+      // Extract just the beer name (first part before style/ABV)
+      let beerName = name
+        .split('-')[0]                        // Take text before first dash
+        .replace(/\s*\d+(\.\d+)?%.*$/i, '')   // Remove ABV if present
+        .trim();
+
+      return beerName;
+    }
   }
 };
 
