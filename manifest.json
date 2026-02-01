@@ -25,7 +25,9 @@
     "https://trackbrewing.co/*",
     "https://*.trackbrewing.co/*",
     "https://overtonebrewing.com/*",
-    "https://*.overtonebrewing.com/*"
+    "https://*.overtonebrewing.com/*",
+    "https://gravitywellbrewing.co.uk/*",
+    "https://*.gravitywellbrewing.co.uk/*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -50,7 +52,9 @@
         "https://trackbrewing.co/*",
         "https://*.trackbrewing.co/*",
         "https://overtonebrewing.com/*",
-        "https://*.overtonebrewing.com/*"
+        "https://*.overtonebrewing.com/*",
+        "https://gravitywellbrewing.co.uk/*",
+        "https://*.gravitywellbrewing.co.uk/*"
       ],
       "js": ["config.js", "content-script.js"],
       "css": ["styles.css"],

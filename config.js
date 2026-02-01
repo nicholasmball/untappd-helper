@@ -247,6 +247,33 @@ const BREWERY_CONFIGS = {
 
       return beerName;
     }
+  },
+
+  'gravitywellbrewing.co.uk': {
+    name: 'Gravity Well',
+    breweryNameForSearch: 'Gravity Well',
+
+    // Selectors for Gravity Well Shopify District theme
+    beerCardSelector: '.product-card, .grid__item, li.grid__item',
+    beerNameSelector: '.product-card__title a, .product-card__title, h3 a, a[href*="/products/"]',
+    priceSelector: '.price, .money',
+    cardTextSelector: '.product-card__info',
+
+    // Inject after the title
+    injectionTarget: '.product-card__title, h3',
+    injectionPosition: 'afterend',
+
+    transformBeerName: (name) => {
+      // Gravity Well format: "Hawking Radiation - Hazy Pale Ale (5%)"
+      // Extract beer name before the dash and style
+      let beerName = name
+        .split('-')[0]                        // Take text before dash
+        .replace(/\s*\([^)]*\)/g, '')         // Remove anything in parentheses
+        .replace(/\s*\d+(\.\d+)?%/i, '')      // Remove ABV
+        .trim();
+
+      return beerName;
+    }
   }
 };
 
