@@ -320,6 +320,34 @@ const BREWERY_CONFIGS = {
 
       return beerName;
     }
+  },
+
+  'missinglinkbrewing.com': {
+    name: 'Missing Link',
+    breweryNameForSearch: 'Missing Link Brewing',
+
+    // Selectors for Shopify theme
+    beerCardSelector: '.product-card, .card, article.product',
+    beerNameSelector: '.product-card__title, .card__heading a, h2 a, a[href*="/products/"]',
+    priceSelector: '.price, .money',
+    cardTextSelector: '.product-card__info, .card__content',
+
+    // Inject after the title
+    injectionTarget: '.product-card__title, .card__heading, h2',
+    injectionPosition: 'afterend',
+
+    transformBeerName: (name) => {
+      // Missing Link format: "BONOBO NEPA 440ml 4.6%" or "MACAQUE WEST COAST IPA 440ml 5.8%"
+      // Extract beer name, remove size, ABV, and style descriptors
+      let beerName = name
+        .replace(/\s*\d+ml\b/gi, '')          // Remove size (440ml, 330ml, etc.)
+        .replace(/\s*\d+(\.\d+)?%.*$/i, '')   // Remove ABV and everything after
+        .replace(/\s+(Hazy|Table|Kveik|American|Grapefruit|West|Coast|Session|Imperial|Double).*/i, '') // Remove style descriptors
+        .replace(/\s+(IPA|NEPA|NEIPA|PALE|LAGER|STOUT|PORTER|PILSNER|SOUR|DIPA|TIPA|ALE|GOSE|SAISON|BEER)$/i, '') // Remove style suffix
+        .trim();
+
+      return beerName;
+    }
   }
 };
 

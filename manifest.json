@@ -29,7 +29,9 @@
     "https://gravitywellbrewing.co.uk/*",
     "https://*.gravitywellbrewing.co.uk/*",
     "https://pomonaislandbrew.co.uk/*",
-    "https://*.pomonaislandbrew.co.uk/*"
+    "https://*.pomonaislandbrew.co.uk/*",
+    "https://missinglinkbrewing.com/*",
+    "https://*.missinglinkbrewing.com/*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -58,7 +60,9 @@
         "https://gravitywellbrewing.co.uk/*",
         "https://*.gravitywellbrewing.co.uk/*",
         "https://pomonaislandbrew.co.uk/*",
-        "https://*.pomonaislandbrew.co.uk/*"
+        "https://*.pomonaislandbrew.co.uk/*",
+        "https://missinglinkbrewing.com/*",
+        "https://*.missinglinkbrewing.com/*"
       ],
       "js": ["config.js", "content-script.js"],
       "css": ["styles.css"],
