@@ -11,8 +11,12 @@ This file provides guidance to Claude Code when working with this repository.
 - azvexbrewing.com (WooCommerce/Themify)
 - pipelinebrewing.co.uk (Shopify Venue)
 - beakbrewery.com (Custom Shopify)
-- deyabrewing.com (Shopify Fresh)
-- pollys.co (WooCommerce/Elementor) - *in progress*
+- deyabrewing.com (Shopify)
+- pollys.co (WooCommerce/Elementor)
+- verdantbrewing.co (Shopify)
+- trackbrewing.co (Shopify)
+- overtonebrewing.com (Shopify Dawn)
+- gravitywellbrewing.co.uk (Shopify)
 
 ## Tech Stack
 

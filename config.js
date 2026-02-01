@@ -82,10 +82,21 @@ const BREWERY_CONFIGS = {
 
     transformBeerName: (name) => {
       // Pipeline format: "Wolf Moon - DIPA - 8.4% - 440ml"
-      // Extract just the beer name (first part before style/ABV)
-      let beerName = name
-        .split('-')[0]                        // Take text before first dash
+      // Collab format: "RIVINGTON COLAB - MIZZLE IPA - 6.5% - 440ML"
+      const parts = name.split('-').map(p => p.trim());
+
+      let beerName;
+      // If first part contains COLAB/COLLAB, beer name is in second part
+      if (parts[0] && /colab|collab/i.test(parts[0])) {
+        beerName = parts[1] || parts[0];
+      } else {
+        beerName = parts[0];
+      }
+
+      // Remove style suffixes and ABV
+      beerName = beerName
         .replace(/\s*\d+(\.\d+)?%.*$/i, '')   // Remove ABV if present
+        .replace(/\s+(IPA|PALE|LAGER|STOUT|PORTER|PILSNER|SOUR|DIPA|TIPA|ALE)$/i, '') // Remove style
         .trim();
 
       return beerName;
@@ -185,11 +196,12 @@ const BREWERY_CONFIGS = {
 
     transformBeerName: (name) => {
       // Verdant names - handle collabs like "Disco Italiano x Birificio Italiano"
+      // Keep year for versioned beers like "Burnthouse Coffee Porter 2025 x Origin"
       let beerName = name
         .replace(/\s*\d+(\.\d+)?%.*$/i, '')   // Remove ABV if present
         .replace(/\s*-\s*\d+ml$/i, '')        // Remove size
         .replace(/\s+x\s+.*/i, '')            // Remove collab suffix " x ..."
-        .replace(/\s+\d{4}\s*$/i, '')         // Remove year like "2025"
+        .replace(/\s+(PORTER|IPA|PALE|LAGER|STOUT|PILSNER|SOUR|DIPA|TIPA|ALE|GOSE)\b/gi, '') // Remove style words
         .trim();
 
       return beerName;
