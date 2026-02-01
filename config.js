@@ -220,6 +220,33 @@ const BREWERY_CONFIGS = {
 
       return beerName;
     }
+  },
+
+  'overtonebrewing.com': {
+    name: 'Overtone',
+    breweryNameForSearch: 'Overtone',
+
+    // Selectors for Overtone Shopify Dawn theme
+    beerCardSelector: '.card-wrapper, li.grid__item',
+    beerNameSelector: 'h3.card__heading a, .card__heading a',
+    priceSelector: '.price',
+    cardTextSelector: '.card__information',
+
+    // Inject inside the card media area (for absolute positioning)
+    injectionTarget: '.card__inner, .card',
+    injectionPosition: 'afterbegin',
+
+    transformBeerName: (name) => {
+      // Overtone format: "LITTLE DREAMER 6 PACK" or "STOVIES IPA" or "BRASSNECK IMPERIAL STOUT"
+      // Remove pack info, ABV, and beer style suffixes
+      let beerName = name
+        .replace(/\s*\d+\s*pack$/i, '')       // Remove "6 PACK" etc
+        .replace(/\s*\d+(\.\d+)?%/i, '')      // Remove ABV anywhere (4.5%)
+        .replace(/\s+(STRAWBERRY\s*&?\s*MANGO\s+)?(HONEY\s+)?(NE\s+)?(NITRO\s+)?(IMPERIAL\s+)?(IPA|PALE|LAGER|STOUT|PORTER|PILSNER|SOUR|DIPA|TIPA|ALE|GOSE|PALE\s+ALE|SESSION\s+IPA)$/i, '') // Remove style suffix
+        .trim();
+
+      return beerName;
+    }
   }
 };
 

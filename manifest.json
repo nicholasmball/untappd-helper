@@ -23,7 +23,9 @@
     "https://verdantbrewing.co/*",
     "https://*.verdantbrewing.co/*",
     "https://trackbrewing.co/*",
-    "https://*.trackbrewing.co/*"
+    "https://*.trackbrewing.co/*",
+    "https://overtonebrewing.com/*",
+    "https://*.overtonebrewing.com/*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -46,7 +48,9 @@
         "https://verdantbrewing.co/*",
         "https://*.verdantbrewing.co/*",
         "https://trackbrewing.co/*",
-        "https://*.trackbrewing.co/*"
+        "https://*.trackbrewing.co/*",
+        "https://overtonebrewing.com/*",
+        "https://*.overtonebrewing.com/*"
       ],
       "js": ["config.js", "content-script.js"],
       "css": ["styles.css"],

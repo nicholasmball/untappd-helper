@@ -157,3 +157,18 @@
   display: flex;
   width: fit-content;
 }
+
+/* Overtone-specific adjustments - absolute positioning on card */
+.card__inner .untappd-rating-badge,
+.card .untappd-rating-badge {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: absolute !important;
+  top: 8px !important;
+  left: 8px !important;
+  z-index: 100 !important;
+  width: fit-content !important;
+  height: auto !important;
+  overflow: visible !important;
+}
