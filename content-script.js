@@ -154,7 +154,24 @@
       return;
     }
 
-    // Add loading indicator
+    // For Wix sites: skip loader, fetch first then inject (avoids re-render issues)
+    if (config.skipLoader) {
+      try {
+        const ratingData = await chrome.runtime.sendMessage({
+          action: 'getBeerRating',
+          beerName: beerName,
+          brewery: config.breweryNameForSearch
+        });
+        const badge = createRatingBadge(ratingData);
+        target.insertAdjacentElement(config.injectionPosition, badge);
+        console.log(`Beer Rating Injector: ${beerName} -> ${ratingData.found ? ratingData.rating : 'not found'}`);
+      } catch (error) {
+        console.error('Beer Rating Injector: Error fetching rating', error);
+      }
+      return;
+    }
+
+    // Standard flow: Add loading indicator
     const loader = createLoadingIndicator();
     target.insertAdjacentElement(config.injectionPosition, loader);
 

@@ -286,6 +286,40 @@ const BREWERY_CONFIGS = {
 
       return beerName;
     }
+  },
+
+  'pomonaislandbrew.co.uk': {
+    name: 'Pomona Island',
+    breweryNameForSearch: 'Pomona Island',
+
+    // Selectors for Wix-based shop
+    beerCardSelector: '[data-hook="product-list-grid-item"]',
+    beerNameSelector: '[data-hook="product-item-name"]',
+    priceSelector: '[data-hook="product-item-price"]',
+    cardTextSelector: '[data-hook="product-item-name-and-price-layout"]',
+
+    // Inject after the product name
+    injectionTarget: '[data-hook="product-item-name"]',
+    injectionPosition: 'afterend',
+
+    // Note: Wix may cause badge flicker due to re-renders
+
+    transformBeerName: (name) => {
+      // Pomona uses verbose names like:
+      // "IF I COULD ONLY REACH YOU BA Imperial Stout | Ledaig 2025"
+      // "VOLTUMNA Blackberry Graf"
+      // "THE MOON IS IN THE SEVENTH HOUSE Raspberry, Blackberry & Blackcurrant Gose 5%"
+      let beerName = name
+        .split('|')[0]                        // Remove variant info after pipe
+        .replace(/\s+BA\s+.*/i, '')           // Remove "BA ..." (Barrel Aged + style)
+        .replace(/\s+\d+(\.\d+)?%.*$/i, '')   // Remove ABV and everything after
+        .replace(/\s+(Raspberry|Blackberry|Blackcurrant|Blueberry|Elderberry|Elderflower|Strawberry|Mango|Papaya|Pineapple|Guava|Rhubarb|Passionfruit|Cherry|Peach|Apricot|Berry|Currant|Vanilla|Coffee|Chocolate|Cinnamon|Maple|Honey|Wild|Fruited|Sour(ed)?|Hazy|Imperial|Double|Triple|Session|Aged|Barrel|Manhattan|Smoothie|West|Traditional|Gluten|Helles|Multi).*/i, '') // Remove from first flavor/descriptor word
+        .replace(/\s+(Stout|IPA|Pale|Lager|Porter|Pilsner|Sour|DIPA|TIPA|Ale|Gose|Graf|Saison|Barley\s*Wine).*$/i, '') // Remove style and everything after
+        .replace(/\s+AF\s*$/i, '')            // Remove "AF" (Alcohol Free)
+        .trim();
+
+      return beerName;
+    }
   }
 };
 

@@ -17,6 +17,7 @@ This file provides guidance to Claude Code when working with this repository.
 - trackbrewing.co (Shopify)
 - overtonebrewing.com (Shopify Dawn)
 - gravitywellbrewing.co.uk (Shopify)
+- pomonaislandbrew.co.uk (Wix)
 
 ## Tech Stack
 

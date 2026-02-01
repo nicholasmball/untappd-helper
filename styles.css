@@ -172,3 +172,18 @@
   height: auto !important;
   overflow: visible !important;
 }
+
+/* Pomona Island (Wix) - position badge in top-left of card */
+[data-hook="product-list-grid-item"] {
+  position: relative !important;
+}
+
+[data-hook="product-list-grid-item"] .untappd-rating-badge {
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: absolute !important;
+  top: 8px !important;
+  left: 8px !important;
+  z-index: 100 !important;
+}
