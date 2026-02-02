@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       action: 'setExtensionEnabled',
       enabled: extensionToggle.checked
     });
-    showStatus(toggleStatus, extensionToggle.checked ? 'Extension enabled' : 'Extension disabled', 'success');
+    showStatus(toggleStatus, extensionToggle.checked ? 'Enabled - refresh page' : 'Disabled - refresh page', 'success');
   });
 
   clearCacheBtn.addEventListener('click', async () => {
