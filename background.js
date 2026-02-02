@@ -83,16 +83,7 @@ async function fetchBeerRating(beerName, brewery) {
     return { ...cached, fromCache: true };
   }
 
-  // Check API key
-  const apiKeyResult = await chrome.storage.sync.get('untappdApiKey');
-  const apiKey = apiKeyResult.untappdApiKey;
-
-  let result;
-  if (apiKey) {
-    result = await fetchViaAPI(beerName, brewery, apiKey);
-  } else {
-    result = await fetchViaScrape(beerName, brewery);
-  }
+  const result = await fetchViaScrape(beerName, brewery);
 
   // Cache the result
   if (result && !result.error) {
@@ -100,45 +91,6 @@ async function fetchBeerRating(beerName, brewery) {
   }
 
   return result;
-}
-
-/**
- * Fetch via Untappd API
- */
-async function fetchViaAPI(beerName, brewery, apiKey) {
-  try {
-    const query = encodeURIComponent(`${beerName} ${brewery}`);
-    const url = `https://api.untappd.com/v4/search/beer?q=${query}&client_id=${apiKey.clientId}&client_secret=${apiKey.clientSecret}`;
-
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      if (response.status === 401) {
-        await chrome.storage.sync.remove('untappdApiKey');
-        return fetchViaScrape(beerName, brewery);
-      }
-      throw new Error(`API error: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    if (data.response?.beers?.items?.length > 0) {
-      const beer = data.response.beers.items[0].beer;
-      return {
-        found: true,
-        rating: beer.rating_score,
-        ratingCount: beer.rating_count,
-        beerName: beer.beer_name,
-        beerUrl: `https://untappd.com/b/${beer.beer_slug}/${beer.bid}`,
-        source: 'api'
-      };
-    }
-
-    return { found: false, source: 'api' };
-  } catch (error) {
-    console.error('API fetch error:', error);
-    return fetchViaScrape(beerName, brewery);
-  }
 }
 
 /**
@@ -340,13 +292,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   }
 
-  if (request.action === 'getDataSource') {
-    chrome.storage.sync.get('untappdApiKey').then(result => {
-      sendResponse({ source: result.untappdApiKey ? 'api' : 'scrape' });
-    });
-    return true;
-  }
-
   if (request.action === 'getExtensionEnabled') {
     chrome.storage.sync.get('extensionEnabled').then(result => {
       sendResponse({ enabled: result.extensionEnabled !== false }); // Default to true
@@ -361,19 +306,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   }
 
-  if (request.action === 'saveApiKey') {
-    chrome.storage.sync.set({ untappdApiKey: request.apiKey }).then(() => {
-      sendResponse({ success: true });
-    });
-    return true;
-  }
-
-  if (request.action === 'clearApiKey') {
-    chrome.storage.sync.remove('untappdApiKey').then(() => {
-      sendResponse({ success: true });
-    });
-    return true;
-  }
 });
 
 // Log when service worker starts
